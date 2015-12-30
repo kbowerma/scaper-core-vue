@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Scraper Core Pump Control</title>
+        <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    </head>
+    <body>
+
+      <div class="container">
+        
+        <div id="message"></div>
+
+      <form id="myform" action="http://kbowerma1-prod.apigee.net/particle/v2/call/scraper_core/relayon/3">
+            <input type="submit" value="PUMP ON"/>
+        </form>
+
+        <form id="myform2" action="http://kbowerma1-prod.apigee.net/particle/v2/call/scraper_core/relayoff/3">
+            <input type="submit" value="PUMP OFF"/>
+        </form>
+
+
+        <div id="response"></div>
+
+      </div>
+
+        <script>
+            $(function() {
+                $("#myform, #myform2").on("submit", function(e) {
+                    e.preventDefault();
+                    $.ajax({
+                        url: $(this).attr("action"),
+                        type: 'GET',
+                        data: $(this).serialize(),
+                        beforeSend: function() {
+                            $("#message").html("sending...");
+                        },
+                        success: function(data) {
+                            $("#message").hide();
+                            $("#response").html(data);
+                        }
+                    });
+                });
+            });
+        </script>
+    </body>
+</html>

@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Vue.js scraper core demo </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+
+    <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+
+
+  </head>
+
+  <body>
+
+
+
+
+<div class="container">
+
+  <div class="jumbotron">
+    <h1>Particle Utilites </h1>
+    <p>By Kyle Bowerman</p>
+    <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p> -->
+  </div>
+
+
+  <div id="app">
+    {{ message }}
+  </div>
+  <p/>
+
+
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">Scraper Core</h3> </div>
+  <div class="panel-body">
+    <div id="message"></div>
+    <form id="myform" action="http://kbowerma1-prod.apigee.net/particle/v2/call/scraper_core/relayon/3">
+        <input type="submit" value="PUMP ON"/>
+    </form>
+    <form id="myform2" action="http://kbowerma1-prod.apigee.net/particle/v2/call/scraper_core/relayoff/3">
+        <input type="submit" value="PUMP OFF"/>
+    </form>
+    <div id="response"></div>
+  </div>
+</div>
+
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Banjo Monkey</h3> </div>
+<div class="panel-body">
+  <div id="message"></div>
+  <form id="myform3" action="http://kbowerma1-prod.apigee.net/particle/v2/call/banjo_monkey/relay/on">
+      <input type="submit" value="Water Plants"/>
+  </form>
+  <div id="response"></div>
+</div>
+</div>
+
+
+
+
+
+</div>
+
+  <script>
+      $(function() {
+          //$("#myform, #myform2").on("submit", function(e) {
+          $("form").on("submit", function(e) { // this works too
+              e.preventDefault();
+              $.ajax({
+                  url: $(this).attr("action"),
+                  type: 'GET',
+                  data: $(this).serialize(),
+                  beforeSend: function() {
+                      $("#message").html("sending...");
+                  },
+                  success: function(data) {
+                      $("#message").hide();
+                      $("#response").html(data);
+                  }
+              });
+          });
+      });
+  </script>
+
+  <script src ="http://cdnjs.cloudflare.com/ajax/libs/vue/1.0.13/vue.min.js"></script>
+  <script src="hello.js"></script>
+
+
+</body>
+</html>
